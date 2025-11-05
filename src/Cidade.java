@@ -9,6 +9,10 @@ public class Cidade {
         this.cep = cep;
     }
 
+    public Cidade(){
+        
+    }
+
     public String getNome() {
         return nome;
     }
