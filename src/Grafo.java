@@ -17,6 +17,7 @@ public class Grafo<T> {
         return false;
     }
 
+    // adicionar parametro para definir se é dirigido ou não
     public boolean adicionarAresta(T origem, T destino, int peso) {
         if (meuGrafo.containsKey(origem)
                 && meuGrafo.containsKey(destino)) {

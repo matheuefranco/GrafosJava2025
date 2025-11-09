@@ -23,8 +23,10 @@ public class App {
         int opcao;
         
         do {
+            System.out.println("\n--- Menu --- Pressione uma tecla para continuar ---");
             scanner.nextLine();
             opcao = menu();
+            
             switch (opcao) {
                 case 1:
                     System.out.println("Entre com nome, estado e cep da cidade:");
