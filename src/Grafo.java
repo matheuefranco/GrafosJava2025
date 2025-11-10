@@ -1,9 +1,11 @@
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Grafo<T> {
 
     private HashMap<T, LinkedList<Aresta>> meuGrafo;
+    private ArrayList<T> visitados;
 
     public Grafo() {
         meuGrafo = new HashMap<>();
@@ -38,6 +40,40 @@ public class Grafo<T> {
             }
             System.out.println("\n");
         }
+    }
+    public ArrayList<T> buscaProfundidadeDFS(T origem){
+        visitados = new ArrayList<>();
+        explorarDFS(origem, visitados);
+        return visitados; 
+    }
+
+    private void explorarDFS(T verticeAtual, ArrayList<T> visitados){
+        visitados.add(verticeAtual);
+        LinkedList<Aresta> adjacencias = meuGrafo.get(verticeAtual);
+        for(Aresta adjacente: adjacencias)
+            if(!visitados.contains(adjacente.vertice))
+                 explorarDFS((T)adjacente.vertice, visitados);
+
+    }
+
+    public boolean alcance(T origem, T destino){
+        visitados = new ArrayList<>();
+        boolean existe = existeCaminho(origem, destino, visitados);
+        System.out.println("*** Percurso de visitados ***");
+        System.out.println(visitados);
+        return existe; 
+    }
+
+    private boolean existeCaminho(T verticeAtual, T destino, ArrayList<T> visitados){
+        if(verticeAtual.equals(destino))
+            return true;
+        visitados.add(verticeAtual);
+        LinkedList<Aresta> adjacencias = meuGrafo.get(verticeAtual);
+        for(Aresta adjacente: adjacencias)
+            if(!visitados.contains(adjacente.vertice))
+                return existeCaminho((T)adjacente.vertice, destino, visitados);
+
+        return false;
     }
 
 }

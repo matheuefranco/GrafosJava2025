@@ -1,8 +1,47 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class App {
+
+    static void carregarCidades(Grafo<Cidade> g, HashMap<Integer, Cidade> cepCidades, String caminhoArquivo) throws Exception {
+        String linha;
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(caminhoArquivo), StandardCharsets.UTF_8)) {
+            while ((linha = br.readLine()) != null) {
+                String[] campos = linha.split(","); // divide os campos por vírgula
+                String nome = campos[0].trim();
+                String estado = campos[1].trim();
+                int cep = Integer.parseInt(campos[2].trim());
+                Cidade cidade = new Cidade(nome, estado, cep);
+                g.adicionarVertice(cidade);
+                cepCidades.put(cep, cidade);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void carregarArestas(Grafo<Cidade> g, HashMap<Integer, Cidade> cepCidades, String caminhoArquivo) throws Exception {
+        String linha;
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(caminhoArquivo), StandardCharsets.UTF_8)) {
+            while ((linha = br.readLine()) != null) {
+                String[] campos = linha.split(","); // divide os campos por vírgula
+                int cepOrigem = Integer.parseInt(campos[0].trim());
+                int cepDestino = Integer.parseInt(campos[1].trim());
+                int peso = Integer.parseInt(campos[2].trim());
+                Cidade origem = cepCidades.get(cepOrigem);
+                Cidade destino = cepCidades.get(cepDestino);
+                g.adicionarAresta(origem, destino, peso);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     static int menu() {
         Scanner scanner = new Scanner(System.in);
@@ -20,13 +59,15 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer, Cidade> cepCidades = new HashMap<>();
         Grafo<Cidade> grafo = new Grafo<>();
+        carregarCidades(grafo, cepCidades, "cidades.csv");
+        carregarArestas(grafo, cepCidades, "arestas.csv");
         int opcao;
-        
+
         do {
             System.out.println("\n--- Menu --- Pressione uma tecla para continuar ---");
             scanner.nextLine();
             opcao = menu();
-            
+
             switch (opcao) {
                 case 1:
                     System.out.println("Entre com nome, estado e cep da cidade:");
@@ -64,6 +105,19 @@ public class App {
                 case 3:
                     grafo.mostrarGrafo();
                     break;
+                case 4: System.out.print("Digite o vértice de origem: ");
+                        cepOrigem = scanner.nextInt();
+                        origem = cepCidades.get(cepOrigem);
+                        System.out.println("Origem selecionada: " + origem);
+                        System.out.print("Digite o vértice de destino: ");
+                        cepDestino = scanner.nextInt();
+                        destino = cepCidades.get(cepDestino);
+                        System.out.println("Destino selecionado: " + destino);
+                        if(grafo.alcance(origem, destino)==true)
+                            System.out.println("Existe caminho :)");
+                         else
+                            System.out.println("Não existe caminho :(");
+                    break;           
                 case 0:
                     System.out.println("Saindo...");
                     break;
