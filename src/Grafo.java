@@ -76,4 +76,26 @@ public class Grafo<T> {
         return false;
     }
 
+    public List<T> explorarLarguraBFS(T inicio){
+        Queue<T> fila = new LinkedList<>();
+        Map<T,T> predecessores = new HashMap<>();
+        visitados = new ArrayList<>();
+        fila.add(inicio);
+        while(!fila.isEmpty()){
+            T verticeAtual = fila.poll();
+            visitados.add(verticeAtual);
+            LinkedList<Aresta> adjacencias = meuGrafo.get(verticeAtual);
+            for(Aresta<T> adj : adjacencias){
+                if(!visitados.contains(adj) && !fila.contains(adj)){
+                    fila.add(adj.vertice);
+                    predecessores.put(adj.vertice, verticeAtual);
+                }
+            }// fim for
+        }
+        System.out.println("Predecessores:"+predecessores);
+        return visitados;
+
+    }
+
+
 }
