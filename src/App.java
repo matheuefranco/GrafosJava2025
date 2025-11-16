@@ -49,6 +49,8 @@ public class App {
         System.out.println("2. Adicionar Aresta");
         System.out.println("3. Mostrar Grafo");
         System.out.println("4. Verificar Alcance");
+        System.out.println("5. Busca em Profundidade (DFS)  ");
+        System.out.println("6. Busca em Largura (BFS) ");
         System.out.println("0. Sair");
         System.out.print("Escolha uma opção: ");
         int op = scanner.nextInt();
@@ -117,7 +119,23 @@ public class App {
                             System.out.println("Existe caminho :)");
                          else
                             System.out.println("Não existe caminho :(");
-                    break;           
+                    break;     
+                case 5: System.out.print("Digite o vértice de origem para DFS: ");
+                        cepOrigem = scanner.nextInt();
+                        origem = cepCidades.get(cepOrigem);
+                        System.out.println("Origem selecionada: " + origem);
+                        System.out.println("*** Percurso DFS ***");
+                        System.out.println(grafo.buscaProfundidadeDFS(origem));
+                        break;
+                case 6: 
+                    System.out.println("Busca em Largura (BFS)");
+                    System.out.print("Digite o vértice de origem para BFS: ");
+                        cepOrigem = scanner.nextInt();
+                        origem = cepCidades.get(cepOrigem);
+                        System.out.println("Origem selecionada: " + origem);
+                        System.out.println("*** Percurso BFS ***");
+                        System.out.println(grafo.explorarLarguraBFS(origem));
+                    break;      
                 case 0:
                     System.out.println("Saindo...");
                     break;

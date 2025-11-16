@@ -86,13 +86,13 @@ public class Grafo<T> {
             visitados.add(verticeAtual);
             LinkedList<Aresta> adjacencias = meuGrafo.get(verticeAtual);
             for(Aresta<T> adj : adjacencias){
-                if(!visitados.contains(adj) && !fila.contains(adj)){
+                if(!visitados.contains(adj.vertice) && !fila.contains(adj.vertice)){
                     fila.add(adj.vertice);
                     predecessores.put(adj.vertice, verticeAtual);
                 }
             }// fim for
         }
-        System.out.println("Predecessores:"+predecessores);
+        System.out.println("Predecessores:"+predecessores+"\n");
         return visitados;
 
     }
