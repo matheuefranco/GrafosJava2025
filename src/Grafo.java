@@ -97,5 +97,47 @@ public class Grafo<T> {
 
     }
 
+    public List<T> dijkstra(T origem, T destino){
+        Map<T, Integer> distancias = new HashMap<>();
+        Map<T, T> predecessores = new HashMap<>();
+        PriorityQueue<DistanciaNode<T>> filaPrioridade = 
+            new PriorityQueue<>();
+        for(T vertice: meuGrafo.keySet()){
+            distancias.put(vertice, Integer.MAX_VALUE);
+            predecessores.put(vertice, null);
+        }
+        distancias.put(origem, 0);
+        filaPrioridade.add(new DistanciaNode<>(origem,0));
+
+        while(!filaPrioridade.isEmpty()){
+            DistanciaNode<T> atual = filaPrioridade.poll();
+            T verticeAtual = atual.vertice;
+            int distanciaAtual = atual.distancia;
+
+            if(verticeAtual.equals(destino))
+                break;
+
+            if(distanciaAtual<= distancias.get(verticeAtual)){
+                LinkedList<Aresta> adjacencias = meuGrafo.get(verticeAtual);
+                for(Aresta<T> adj: adjacencias){
+                    int novaDistancia = distanciaAtual + adj.peso;
+                    if(novaDistancia<distancias.get(adj.vertice)){
+                        distancias.put(adj.vertice, novaDistancia);
+                        predecessores.put(adj.vertice, verticeAtual);
+                        filaPrioridade.add(
+                            new  DistanciaNode<>(adj.vertice, novaDistancia));
+                    }
+                }
+
+            }// fim if explorar adjacencias
+
+        }// fim while
+        
+
+
+
+
+    }
+
 
 }
