@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
@@ -51,6 +50,7 @@ public class App {
         System.out.println("4. Verificar Alcance");
         System.out.println("5. Busca em Profundidade (DFS)  ");
         System.out.println("6. Busca em Largura (BFS) ");
+        System.out.println("7. Caminho minimo (Dijkstra) ");
         System.out.println("0. Sair");
         System.out.print("Escolha uma opção: ");
         int op = scanner.nextInt();
@@ -61,8 +61,8 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer, Cidade> cepCidades = new HashMap<>();
         Grafo<Cidade> grafo = new Grafo<>();
-        carregarCidades(grafo, cepCidades, "cidades.csv");
-        carregarArestas(grafo, cepCidades, "arestas.csv");
+        carregarCidades(grafo, cepCidades, "grafoaula.csv");
+        carregarArestas(grafo, cepCidades, "arestasaula.csv");
         int opcao;
 
         do {
@@ -135,6 +135,21 @@ public class App {
                         System.out.println("Origem selecionada: " + origem);
                         System.out.println("*** Percurso BFS ***");
                         System.out.println(grafo.explorarLarguraBFS(origem));
+                    break;      
+                case 7: 
+                    System.out.println("Caminho minimo (Dijkstra)");
+                    System.out.print("Digite o vértice de origem: ");
+                        cepOrigem = scanner.nextInt();
+                        origem = cepCidades.get(cepOrigem);
+                        System.out.println("Origem selecionada: " + origem);
+                        System.out.print("Digite o vértice de destino: ");
+                        cepDestino = scanner.nextInt();
+                        destino = cepCidades.get(cepDestino);
+                        System.out.println("Destino selecionado: " + destino);
+                        List<Cidade> caminho = grafo.dijkstra(origem, destino);
+                         System.out.println("*** Caminho ***");
+                        System.out.println(caminho);
+
                     break;      
                 case 0:
                     System.out.println("Saindo...");

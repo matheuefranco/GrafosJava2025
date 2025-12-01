@@ -113,9 +113,6 @@ public class Grafo<T> {
             T verticeAtual = atual.vertice;
             int distanciaAtual = atual.distancia;
 
-            if(verticeAtual.equals(destino))
-                break;
-
             if(distanciaAtual<= distancias.get(verticeAtual)){
                 LinkedList<Aresta> adjacencias = meuGrafo.get(verticeAtual);
                 for(Aresta<T> adj: adjacencias){
@@ -132,11 +129,20 @@ public class Grafo<T> {
 
         }// fim while
         
+        // Reconstruir o caminho
         List<T> caminho = new ArrayList<>();
+        T vertice = destino;
+        while(vertice!=null){
+            caminho.add(vertice);
+            vertice = predecessores.get(vertice);
+        }
+         Collections.reverse(caminho);
+
+         System.out.println("Predecessores");
+         System.out.println(predecessores);
+         System.out.println("Distancias");
+         System.out.println(distancias);
         return caminho;
-
-
-
     }
 
 
